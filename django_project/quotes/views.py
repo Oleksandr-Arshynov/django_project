@@ -1,6 +1,10 @@
 from django.shortcuts import redirect, render
 from django.core.paginator import Paginator
+from django.contrib.auth.decorators import login_required
+from .forms import AuthorForm, QuoteForm
+from django.contrib.auth.forms import UserCreationForm
 
+from .models import Author, Quote
 
 from .utils import get_mongodb
 
@@ -12,3 +16,26 @@ def main(request, page=1):
     quotes_on_page = paginator.page(page)
 
     return render(request, 'quotes/index.html', context={'quotes': quotes_on_page})
+
+@login_required
+def add_author(request):
+    if request.method == 'POST':
+        form = AuthorForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('quotes.urls')
+    else:
+        form = AuthorForm()
+    return render(request, 'add_author.html', {'form': form})
+
+@login_required
+def add_quote(request):
+    if request.method == 'POST':
+        form = QuoteForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('quotes.urls')
+    else:
+        form = QuoteForm()
+    return render(request, 'add_quote.html', {'form': form})
+

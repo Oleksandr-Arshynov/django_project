@@ -1,0 +1,6 @@
+{
+    "python.analysis.extraPaths": [
+        "./django_project/quotes",
+        "./django_project"
+    ]
+}

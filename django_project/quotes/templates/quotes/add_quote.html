@@ -14,3 +14,15 @@
     </form>
 </body>
 </html>
+{% extends 'quotes/base.html' %}
+
+{% block title %}Додати нову цитату{% endblock %}
+
+{% block content %}
+    <h1>Add New Quote</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add Quote</button>
+    </form>
+{% endblock %}

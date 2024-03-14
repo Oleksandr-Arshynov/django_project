@@ -19,14 +19,16 @@
         </div>
         <div class="col-md-4">
             <p>
-                {% if user.is_authentificated %}
-                <a href="/logout" class="btn btn-primary">Logout</a>
-                <a href="/add_author/" class="btn btn-primary">Create author</a>
-                <a href="/add_quote" class="btn btn-primary">Create quote</a>
-                {% else %}
+                <a href="{% url 'quotes:root' %}">Home</a>
+                
+                
+                <a href="/add_author/" class="btn btn-primary">Add author</a>
+                <a href="/add_quote/" class="btn btn-primary">Add quote</a>
+                <a href="{% url 'users:logout' %}" class="btn btn-primary">Logout</a>
+                
                 <a href="{% url 'users:signup' %}" class="btn btn-primary">Register</a>
                 <a href="{% url 'users:login' %}" class="btn btn-primary">Login</a>
-                {% endif %}
+                
             </p>
         </div>
     </div>

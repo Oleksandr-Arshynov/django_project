@@ -1,56 +1,42 @@
+from django.contrib.auth import login as auth_login, logout as django_logout
+from django.contrib import messages
 from django.shortcuts import redirect, render
 from django.views import View
-from django.contrib import messages
-from .forms import RegisterForm
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth import logout as django_logout
-from django.contrib.auth import authenticate, login as auth_login
-# Create your views here.
+from .forms import LoginForm, RegisterForm
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
+def signupuser(request):
+    if request.user.is_authenticated:
+        return redirect(to='quotes:root')
 
-class RegisterView(View):
-    template_name = 'users/register.html'
-    form_class = RegisterForm
-    
-    def get(self, request):
-        return render(request, self.template_name, {'form': self.form_class})
-
-    def post(self, request):
-        form = self.form_class(request.POST)
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
         if form.is_valid():
             form.save()
-            username = form.cleaned_data.get('username')
-            messages.success(request, f'Account created for {username}')
-            return redirect(to='users:signin')
-        return render(request, self.template_name, {'form': form})
+            return redirect(to='users:login')
+        else:
+            return render(request, 'users/register.html', context={"form": form})
 
-def register(request):
+    return render(request, 'users/register.html', context={"form": RegisterForm()})
+def loginuser(request):
+    if request.user.is_authenticated:
+       return redirect(to='quotes:root')
+
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-          
-            return redirect('/')  
-    else:
-        form = UserCreationForm()
-    return render(request, 'register.html', {'form': form})
+        user = authenticate(username=request.POST['username'], password=request.POST['password'])
+        if user is None:
+            messages.error(request, 'Username or password didn\'t match')
+            return redirect(to='users:login')
+
+        login(request, user)
+        return redirect(to='quotes:root')
+
+    return render(request, 'users/login.html', context={"form": LoginForm()})
 
 
-def login(request):
-    if request.method == 'POST':
-        form = AuthenticationForm(data=request.POST)
-        if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            user = authenticate(request, username=username, password=password)
-            if user is not None:
-                auth_login(request, user)
-                return redirect('/')
-    else:
-        form = AuthenticationForm()
-    return render(request, 'login.html', {'form': form})
+@login_required
+def logoutuser(request):
+    logout(request)
+    return redirect(to='quotes:root')
 
-
-def logout(request):
-    django_logout(request)
-    return redirect('/')

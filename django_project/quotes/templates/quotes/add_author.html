@@ -1,16 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add New Author</title>
-</head>
-<body>
+{% extends 'quotes/base.html' %}
+
+{% block title %}Додати нового автора{% endblock %}
+
+{% block content %}
     <h1>Add New Author</h1>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Add Author</button>
     </form>
-</body>
-</html>
+{% endblock %}

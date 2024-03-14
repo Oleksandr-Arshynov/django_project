@@ -23,10 +23,10 @@ def add_author(request):
         form = AuthorForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('quotes.urls')
+            return redirect('quotes:root')
     else:
         form = AuthorForm()
-    return render(request, 'add_author.html', {'form': form})
+    return render(request, 'quotes/add_author.html', {'form': form})
 
 @login_required
 def add_quote(request):
@@ -34,8 +34,8 @@ def add_quote(request):
         form = QuoteForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('quotes.urls')
+            return redirect('quotes:root')
     else:
         form = QuoteForm()
-    return render(request, 'add_quote.html', {'form': form})
-
+    authors = Author.objects.all() 
+    return render(request, 'quotes/add_quote.html', {'form': form, 'authors': authors})

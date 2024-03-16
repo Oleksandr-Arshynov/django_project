@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 # Create your models here.
 class Author(models.Model):
@@ -8,6 +9,10 @@ class Author(models.Model):
     description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     
+    def get_absolute_url(self):
+        return reverse('quotes:author_detail', kwargs={'author_id': self.pk})
+    
+
 
 class Tag(models.Model):
     name = models.CharField(max_length=30, null=False, unique=True)

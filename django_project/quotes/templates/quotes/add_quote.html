@@ -6,7 +6,27 @@
     <h1>Add New Quote</h1>
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Add Quote</button>
+        <div class="mb-3">
+            <label class="form-label" for="quote">Quote</label>
+            <textarea class="form-control" id="quote" name="quote" placeholder="Введіть цитату"></textarea>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="author">Author</label>
+            <select class="form-select" id="author" name="author">
+                <option value="" selected disabled>Виберіть автора</option>
+                {% for author in authors %}
+                    <option value="{{ author.id }}">{{ author.fullname }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="tags">Tags</label>
+            <select class="form-select" id="tags" name="tags" multiple>
+                {% for tag in tags %}
+                    <option value="{{ tag.id }}">{{ tag.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Додати цитату</button>
     </form>
 {% endblock %}

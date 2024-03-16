@@ -43,3 +43,8 @@ def add_quote(request):
 def author_detail(request, author_id):
     author = get_object_or_404(Author, pk=author_id)
     return render(request, 'quotes/author_detail.html', {'author': author})
+
+def quotes_by_tag(request, tag_name):
+    tag = Tag.objects.get(name=tag_name)
+    quotes_with_tag = Quote.objects.filter(tags=tag)
+    return render(request, 'quotes/quotes_by_tag.html', {'tag': tag, 'quotes_with_tag': quotes_with_tag})

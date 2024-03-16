@@ -10,12 +10,12 @@
       </span>
       <div class="tags">
         Tags: {% for tag in quote.tags.all %}
-        <a class="tag" href="{{ tag.get_absolute_url }}">{{ tag.name }}</a>
+        <a class="tag" href="{% url 'quotes:quotes_by_tag' tag_name=tag.name %}">{{ tag.name }}</a>
         {% endfor %}
       </div>
     </div>
     {% endfor %}
-    <nav>
+    <nav class="mt-3">
       <ul class="pager">
         <li class="previous">
           <a class="{% if not quotes.has_previous %} disabled {% endif %}"

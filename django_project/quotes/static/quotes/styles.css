@@ -62,6 +62,10 @@ ul.pager {
     text-align: center;
 }
 
+ul.pager {
+    margin-bottom: 100px;
+}
+
 .pager li>a, .pager li>span {
     display: inline-block;
     padding: 5px 14px;
@@ -69,6 +73,11 @@ ul.pager {
     border: 1px solid #dddddd;
     border-radius: 15px;
 }
+
+.pager {
+    margin-top: 100px;
+    margin-bottom: 100px; 
+  }
 
 .pager .previous>a, .pager .previous>span {
     float: left;

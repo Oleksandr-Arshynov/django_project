@@ -16,7 +16,6 @@ class Author(models.Model):
 
 class Tag(models.Model):
     name = models.CharField(max_length=30, null=False, unique=True)
-    
 
 
 class Quote(models.Model):

@@ -2,8 +2,10 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from .forms import AuthorForm, QuoteForm
-from django.views.generic import DetailView
-
+from django.shortcuts import render
+from django.http import HttpResponse
+from scrapy.crawler import CrawlerProcess
+from .import_quotes import QuotesSpider
 from .models import Author, Quote, Tag
 
 from .utils import get_mongodb
@@ -48,3 +50,14 @@ def quotes_by_tag(request, tag_name):
     tag = Tag.objects.get(name=tag_name)
     quotes_with_tag = Quote.objects.filter(tags=tag)
     return render(request, 'quotes/quotes_by_tag.html', {'tag': tag, 'quotes_with_tag': quotes_with_tag})
+
+
+@login_required
+def run_scraping(request):
+    if request.method == 'POST':
+        process = CrawlerProcess()
+        process.crawl(QuotesSpider)
+        process.start()
+        return HttpResponse("Scraping process initiated successfully.")
+    else:
+        return render(request, 'quotes/form_scrape.html')

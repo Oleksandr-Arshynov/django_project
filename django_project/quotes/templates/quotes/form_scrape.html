@@ -1,0 +1,12 @@
+{% extends "quotes/base.html" %}
+
+{% block content %}
+
+    <form method="post" action="{% url 'quotes:run_scraping' %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary">Run Scraping</button>
+    </form>
+{% endblock %}
+
+
+

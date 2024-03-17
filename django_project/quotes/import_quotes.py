@@ -32,10 +32,10 @@ class DataPipline:
             self.quotes.append(dict(adapter))
 
     def close_spider(self, spider):
-        with open('quotes.json', 'w') as file:
+        with open('scrapy_quotes.json', 'w') as file:
             json.dump(self.quotes, file, ensure_ascii=False, indent=2)
             
-        with open('authors.json', 'w') as file:
+        with open('scrapy_authors.json', 'w') as file:
             json.dump(self.authors, file, ensure_ascii=False, indent=2)
 
 

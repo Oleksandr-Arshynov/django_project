@@ -54,10 +54,7 @@ def quotes_by_tag(request, tag_name):
 
 @login_required
 def run_scraping(request):
-    if request.method == 'POST':
-        process = CrawlerProcess()
-        process.crawl(QuotesSpider)
-        process.start()
-        return HttpResponse("Scraping process initiated successfully.")
-    else:
-        return render(request, 'quotes/form_scrape.html')
+    process = CrawlerProcess()
+    process.crawl(QuotesSpider)
+    process.start()
+    return HttpResponse("Scraping process initiated successfully.")

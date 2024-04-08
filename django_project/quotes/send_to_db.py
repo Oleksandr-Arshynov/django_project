@@ -9,10 +9,10 @@ collection_a = db.authors_scrapy
 collection_q = db.quotes_scrapy
 
 # Відкриття файлу JSON та завантаження даних у базу даних
-with open("/Users/oleksandrarshinov/Desktop/Documents/Repository/django_project/django_project/authors.json") as f:
+with open("/Users/oleksandrarshinov/Desktop/Documents/Repository/django_project/authors.json") as f:
     data_a = json.load(f)
     collection_a.insert_many(data_a)
 
-with open("/Users/oleksandrarshinov/Desktop/Documents/Repository/django_project/django_project/quotes.json") as f:
+with open("/Users/oleksandrarshinov/Desktop/Documents/Repository/django_project/quotes.json") as f:
     data_q = json.load(f)
     collection_q.insert_many(data_q)

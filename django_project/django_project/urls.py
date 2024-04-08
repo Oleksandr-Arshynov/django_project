@@ -9,5 +9,5 @@ from users import views
 urlpatterns = [
     path('auth/', include('users.urls')),
     path('', include('quotes.urls')),
-
+    path('admin/', admin.site.urls),
 ]

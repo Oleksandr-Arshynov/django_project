@@ -1,10 +1,12 @@
 from django.contrib.auth import login as auth_login, logout as django_logout
 from django.contrib import messages
 from django.shortcuts import redirect, render
-from django.views import View
+from django.contrib.messages.views import SuccessMessageMixin
+from django.urls import reverse_lazy
 from .forms import LoginForm, RegisterForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import PasswordResetView
 
 def signupuser(request):
     if request.user.is_authenticated:
@@ -34,7 +36,15 @@ def loginuser(request):
 
     return render(request, 'users/login.html', context={"form": LoginForm()})
 
+class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
+    template_name = 'users/password_reset.html'
+    email_template_name = 'users/password_reset_email.html'
+    html_email_template_name = 'users/password_reset_email.html'
+    success_url = reverse_lazy('users:password_reset_done')
+    success_message = "An email with instructions to reset your password has been sent to %(email)s."
+    subject_template_name = 'users/password_reset_subject.txt'
 
+    
 @login_required
 def logoutuser(request):
     logout(request)
